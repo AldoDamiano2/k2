@@ -1,6 +1,9 @@
 package control;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -59,7 +62,7 @@ public class Register extends HttpServlet {
 			//Aggiungi a AccountUser
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, email);
-			ps.setString(2, password);
+			ps.setString(2, hashPassword(password));
 			ps.setString(3, nome);
 			ps.setString(4, cognome);
 			ps.setString(5, indirizzo);
@@ -91,5 +94,22 @@ public class Register extends HttpServlet {
 			redirectedPage = "/register-form.jsp";
 		}
 		response.sendRedirect(request.getContextPath() + redirectedPage);
+	}
+	
+	private String hashPassword(String password) {
+	    try {
+	        MessageDigest md = MessageDigest.getInstance("SHA-512");
+	        byte[] messageDigest = md.digest(password.getBytes());
+	        BigInteger number = new BigInteger(1, messageDigest);
+	        String hashtext = number.toString(16);
+
+	        // Add leading zeros to make it 64 characters long
+	        while (hashtext.length() < 64) {
+	            hashtext = "0" + hashtext;
+	        }
+	        return hashtext;
+	    } catch (NoSuchAlgorithmException e) {
+	        throw new RuntimeException(e);
+	    }
 	}
 }
