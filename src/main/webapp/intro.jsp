@@ -10,8 +10,9 @@
 	<link rel="stylesheet" href="./css/intro-style.css">
 	<link rel="icon" href="./img/icon.png">
 	
-	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-</head>
+ <script src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha384-hash-value" 
+            crossorigin="anonymous"></script></head>
 <body>
 
 	<div class="welcome-section content-hidden">
